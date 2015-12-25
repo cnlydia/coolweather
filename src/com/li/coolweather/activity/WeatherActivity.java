@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.li.coolweather.R;
+import com.li.coolweather.service.AutoUpdateService;
 import com.li.coolweather.util.HttpCallbackListener;
 import com.li.coolweather.util.HttpUtil;
 import com.li.coolweather.util.Utility;
@@ -119,6 +120,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
+		Intent intent = new Intent(this, AutoUpdateService.class);
+		startService(intent);
 	}
 
 	@Override
@@ -128,6 +131,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(this, ChooseAreaActivity.class);
 			intent.putExtra("from_weather_activity", true);
 			startActivity(intent);
+			finish();
 			break;
 		case R.id.refresh_weather:
 			publishText.setText("同步中..");
@@ -142,5 +146,4 @@ public class WeatherActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
-
 }
