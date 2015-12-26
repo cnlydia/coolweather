@@ -3,12 +3,12 @@
     android:shape="oval" >
 
     <!-- 半径 -->
-    <corners android:radius="16dp" />
+    <corners android:radius="25dp" />
     <!-- 填充色 -->
-    <solid android:color="#484e61" />
+    <solid android:color="#27a5f9" />
     <!-- 大小 -->
     <size
-        android:height="45dp"
-        android:width="45dp" />
+        android:height="50dp"
+        android:width="50dp" />
 
 </shape>

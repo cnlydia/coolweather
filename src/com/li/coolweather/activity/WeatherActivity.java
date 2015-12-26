@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.li.coolweather.R;
 import com.li.coolweather.service.AutoUpdateService;
@@ -22,13 +23,25 @@ import com.li.coolweather.util.Utility;
 public class WeatherActivity extends Activity implements OnClickListener {
 	private LinearLayout weatherLayout;
 	private TextView cityNameText;
-	private TextView publishText;
-	private TextView weatherDespText;
+	private TextView weatherNowText;
 	private TextView temp1Text;
 	private TextView temp2Text;
 	private TextView currentDateText;
 	private ImageView switchCity;
 	private ImageView refreshWeather;
+	private TextView weatherDespText;
+	private TextView windText;
+	private TextView tipsText;
+	private ImageView weatherIcon;
+
+	private int[] icons = new int[] { R.drawable.qing, R.drawable.yintian,
+			R.drawable.duoyun, R.drawable.zhenyu, R.drawable.xiaoyu,
+			R.drawable.dayu, R.drawable.baoyu, R.drawable.xiaoxue,
+			R.drawable.daxue, R.drawable.baoxue, R.drawable.yujiaxue,
+			R.drawable.shandian };
+
+	private String[] types = new String[] { "晴", "阴", "多云", "阵雨", "小雨", "大雨",
+			"暴雨", "小雪", "大雪", "暴雪", "雨夹雪", "闪电" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +52,26 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
+		currentDateText = (TextView) findViewById(R.id.current_date);
+		refreshWeather = (ImageView) findViewById(R.id.refresh_weather);
 		weatherLayout = (LinearLayout) findViewById(R.id.weather_info_layout);
-		cityNameText = (TextView) findViewById(R.id.city_name);
-		publishText = (TextView) findViewById(R.id.publish_text);
-		weatherDespText = (TextView) findViewById(R.id.weather_desp);
+		weatherNowText = (TextView) findViewById(R.id.weather_now);
+		weatherIcon = (ImageView) findViewById(R.id.weatherIcon);
 		temp1Text = (TextView) findViewById(R.id.temp1);
 		temp2Text = (TextView) findViewById(R.id.temp2);
+		weatherDespText = (TextView) findViewById(R.id.weather_desp);
+		windText = (TextView) findViewById(R.id.wind);
+		tipsText = (TextView) findViewById(R.id.tips);
+		cityNameText = (TextView) findViewById(R.id.city_name);
 		switchCity = (ImageView) findViewById(R.id.switch_city);
-		refreshWeather = (ImageView) findViewById(R.id.refresh_weather);
+		weatherIcon.setVisibility(View.INVISIBLE);
+
 		switchCity.setOnClickListener(this);
 		refreshWeather.setOnClickListener(this);
 
-		currentDateText = (TextView) findViewById(R.id.current_date);
 		String countyCode = getIntent().getStringExtra("county_code");
 		if (!TextUtils.isEmpty(countyCode)) {
-			publishText.setText("同步中...");
 			weatherLayout.setVisibility(View.INVISIBLE);
-			cityNameText.setVisibility(View.INVISIBLE);
 			queryWeatherCode(countyCode);
 		} else {
 			showWeather();
@@ -69,8 +85,12 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	}
 
 	private void queryWeatherInfo(String weatherCode) {
-		String address = "http://www.weather.com.cn/data/cityinfo/"
-				+ weatherCode + ".html";
+		String address = "http://wthrcdn.etouch.cn/weather_mini?citykey="
+				+ weatherCode;
+		SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(this).edit();
+		editor.putString("weather_code", weatherCode);
+		editor.commit();
 		queryFromServer(address, "weatherCode");
 	}
 
@@ -102,7 +122,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 			public void onError(Exception e) {
 				runOnUiThread(new Runnable() {
 					public void run() {
-						publishText.setText("同步失败");
+						Toast.makeText(getApplicationContext(), "同步失败",
+								Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
@@ -112,16 +133,31 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private void showWeather() {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
+		weatherNowText.setText(prefs.getString("weather_now", "") + "℃");
 		cityNameText.setText(prefs.getString("city_name", ""));
+		weatherDespText.setText(prefs.getString("weather_desp", ""));
+		setImage(prefs.getString("weather_desp", ""));
 		temp1Text.setText(prefs.getString("temp1", ""));
 		temp2Text.setText(prefs.getString("temp2", ""));
-		weatherDespText.setText(prefs.getString("weather_desp", ""));
-		publishText.setText("今天" + prefs.getString("publish_time", "") + "发布");
+		windText.setText(prefs.getString("fengxiang", "") + "/"
+				+ prefs.getString("fengli", ""));
+		tipsText.setText("Tips:" + prefs.getString("tips", ""));
 		currentDateText.setText(prefs.getString("current_date", ""));
+
 		weatherLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
 		Intent intent = new Intent(this, AutoUpdateService.class);
 		startService(intent);
+	}
+
+	private void setImage(String type) {
+		for (int i = 0; i < types.length; i++) {
+			if (type.equals(types[i])) {
+				weatherIcon.setImageResource(icons[i]);
+				weatherIcon.setVisibility(View.VISIBLE);
+			}
+		}
+		
 	}
 
 	@Override
@@ -134,7 +170,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.refresh_weather:
-			publishText.setText("同步中..");
+			Toast.makeText(getApplicationContext(), "同步中", Toast.LENGTH_SHORT)
+					.show();
 			SharedPreferences prefs = PreferenceManager
 					.getDefaultSharedPreferences(this);
 			String weatherCode = prefs.getString("weather_code", "");
