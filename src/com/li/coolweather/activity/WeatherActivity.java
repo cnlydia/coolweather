@@ -59,8 +59,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
-
-		showMenu = false;
+		showMenu=false;
 		mSlidingMenu = (SlidingMenu) findViewById(R.id.slidingmenu);
 		currentDateText = (TextView) findViewById(R.id.current_date);
 		refreshWeather = (ImageView) findViewById(R.id.refresh_weather);
@@ -222,7 +221,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 			showMenu = true;
 		} else {
 			mSlidingMenu.closeMenu();
-			showMenu = true;
+			showMenu = false;
 		}
 	}
 }
