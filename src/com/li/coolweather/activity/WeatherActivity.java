@@ -36,7 +36,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	private TextView windText;
 	private TextView tipsText;
 	private ImageView weatherIcon;
-	private ToggleView toggle;
+//	private ToggleView toggle;
 	private SlidingMenu mSlidingMenu;
 
 	private boolean showMenu;
@@ -74,32 +74,32 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		tipsText = (TextView) findViewById(R.id.tips);
 		cityNameText = (TextView) findViewById(R.id.city_name);
 		switchCity = (ImageView) findViewById(R.id.switch_city);
-		toggle = (ToggleView) findViewById(R.id.toggle);
+//		toggle = (ToggleView) findViewById(R.id.toggle);
 		weatherIcon.setVisibility(View.INVISIBLE);
 
 		switchCity.setOnClickListener(this);
 		refreshWeather.setOnClickListener(this);
-		toggle.setToggleBackground(R.drawable.switch_background);
-		toggle.setToggleSlid(R.drawable.slide_button_background);
-		toggle.setOnToggleListener(new OnToggleListener() {
-
-			@Override
-			public void onToggleStateChanged(boolean isOpened) {
-				if (isOpened) {
+//		toggle.setToggleBackground(R.drawable.switch_background);
+//		toggle.setToggleSlid(R.drawable.slide_button_background);
+//		toggle.setOnToggleListener(new OnToggleListener() {
+//
+//			@Override
+//			public void onToggleStateChanged(boolean isOpened) {
+//				if (isOpened) {
 					Intent intent = new Intent(WeatherActivity.this,
 							AutoUpdateService.class);
 					startService(intent);
-					Toast.makeText(getApplicationContext(), "开启自动更新",
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Intent intent = new Intent(WeatherActivity.this,
-							AutoUpdateService.class);
-					stopService(intent);
-					Toast.makeText(getApplicationContext(), "关闭自动更新",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+		// Toast.makeText(getApplicationContext(), "开启自动更新",
+		// Toast.LENGTH_SHORT).show();
+//				} else {
+//					Intent intent = new Intent(WeatherActivity.this,
+//							AutoUpdateService.class);
+//					stopService(intent);
+//					Toast.makeText(getApplicationContext(), "关闭自动更新",
+//							Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//		});
 
 		String countyCode = getIntent().getStringExtra("county_code");
 		if (!TextUtils.isEmpty(countyCode)) {

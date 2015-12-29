@@ -3,49 +3,63 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#27a5f9"
+    android:background="@drawable/loading"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp" >
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/refresh_weather"
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
             android:src="@drawable/refresh" />
+
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="cityname"
+            android:textColor="#fff"
+            android:textSize="30sp" >
+        </TextView>
 
         <ImageView
             android:id="@+id/switch_city"
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
             android:background="@drawable/home_setting_item_selector"
             android:src="@drawable/setting" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/current_date"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="currentdate"
-            android:textColor="#fff"
-            android:textSize="25sp" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/current_date"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="currentdate"
+        android:textColor="#fff"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:id="@+id/weather_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -78,7 +92,6 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -115,7 +128,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
             android:orientation="vertical" >
 
             <TextView
@@ -126,42 +138,26 @@
                 android:gravity="center"
                 android:text="desp"
                 android:textColor="#fff"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/wind"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="wind"
                 android:textColor="#fff"
-                android:textSize="30sp" />
+                android:textSize="25sp"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/city_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="cityname"
-        android:textColor="#fff"
-        android:textSize="24sp" >
-    </TextView>
-
-    <com.li.coolweather.view.ToggleView
-        android:id="@+id/toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
-
     <ImageView
-        android:onClick="open"
-        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/tab_ties" />
+        android:layout_marginLeft="10dp"
+        android:onClick="open"
+        android:src="@drawable/tips" />
 
 </LinearLayout>

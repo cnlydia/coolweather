@@ -93,89 +93,89 @@ public class SlidingMenu extends ViewGroup {
 				contentBottom);
 	}
 
-//	@Override
-//	public boolean onInterceptTouchEvent(MotionEvent event) {
-//		int action = event.getAction();
-//		switch (action) {
-//		case MotionEvent.ACTION_DOWN:
-//			mDownX = event.getX();
-//			mDownY = event.getY();
-//
-//			break;
-//		case MotionEvent.ACTION_MOVE:
-//			float moveX = event.getX();
-//			float moveY = event.getY();
-//			// 水平移动时要拦截touch事件
-//
-//			if (Math.abs(mDownX - moveX) > Math.abs(mDownY - moveY)) {
-//				// 水平方向移动,拦截
-//				return true;
-//			}
-//
-//			break;
-//		case MotionEvent.ACTION_UP:
-//			break;
-//		default:
-//			break;
-//		}
-//
-//		return super.onInterceptTouchEvent(event);
-//	}
-//
-//	@Override
-//	public boolean onTouchEvent(MotionEvent event) {
-//		int action = event.getAction();
-//		switch (action) {
-//		case MotionEvent.ACTION_DOWN:
-//			mDownX = event.getX();
-//
-//			break;
-//		case MotionEvent.ACTION_MOVE:
-//			float moveX = event.getX();
-//
-//			int diffX = (int) (mDownX - moveX + 0.5f);
-//
-//			// 临界点的判断
-//
-//			// 获得滚动时屏幕左上角点
-//			int scrollX = getScrollX();
-//			// 判断预计是否要超过
-//
-//			if (scrollX + diffX < -mMeunView.getMeasuredWidth()) {
-//				// 左侧超出了范围,最多显示菜单部分
-//				scrollTo(-mMeunView.getMeasuredWidth(), 0);
-//			} else if (scrollX + diffX > 0) {
-//				// 右侧超出
-//				scrollTo(0, 0);
-//			} else {
-//				scrollBy(diffX, 0);
-//			}
-//
-//			// scrollTo(diffX, 0);
-//
-//			mDownX = moveX;
-//			break;
-//		case MotionEvent.ACTION_UP:
-//			int currentX = getScrollX();
-//			int middleX = (int) (-mMeunView.getMeasuredWidth() / 2f + 0.5f);
-//
-//			// if (middleX < currentX) {
-//			// // 显示内容区域
-//			//
-//			// scrollTo(0, 0);
-//			// } else {
-//			// // 显示菜单区域
-//			// scrollTo(-mMeunView.getMeasuredWidth(), 0);
-//			// }
-//
-//			switchMenu(!(middleX < currentX));
-//			break;
-//		default:
-//			break;
-//		}
-//		// 消费touch
-//		return true;
-//	}
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent event) {
+		int action = event.getAction();
+		switch (action) {
+		case MotionEvent.ACTION_DOWN:
+			mDownX = event.getX();
+			mDownY = event.getY();
+
+			break;
+		case MotionEvent.ACTION_MOVE:
+			float moveX = event.getX();
+			float moveY = event.getY();
+			// 水平移动时要拦截touch事件
+
+			if (Math.abs(mDownX - moveX) > Math.abs(mDownY - moveY)) {
+				// 水平方向移动,拦截
+				return true;
+			}
+
+			break;
+		case MotionEvent.ACTION_UP:
+			break;
+		default:
+			break;
+		}
+
+		return super.onInterceptTouchEvent(event);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		int action = event.getAction();
+		switch (action) {
+		case MotionEvent.ACTION_DOWN:
+			mDownX = event.getX();
+
+			break;
+		case MotionEvent.ACTION_MOVE:
+			float moveX = event.getX();
+
+			int diffX = (int) (mDownX - moveX + 0.5f);
+
+			// 临界点的判断
+
+			// 获得滚动时屏幕左上角点
+			int scrollX = getScrollX();
+			// 判断预计是否要超过
+
+			if (scrollX + diffX < -mMeunView.getMeasuredWidth()) {
+				// 左侧超出了范围,最多显示菜单部分
+				scrollTo(-mMeunView.getMeasuredWidth(), 0);
+			} else if (scrollX + diffX > 0) {
+				// 右侧超出
+				scrollTo(0, 0);
+			} else {
+				scrollBy(diffX, 0);
+			}
+
+			// scrollTo(diffX, 0);
+
+			mDownX = moveX;
+			break;
+		case MotionEvent.ACTION_UP:
+			int currentX = getScrollX();
+			int middleX = (int) (-mMeunView.getMeasuredWidth() / 2f + 0.5f);
+
+			// if (middleX < currentX) {
+			// // 显示内容区域
+			//
+			// scrollTo(0, 0);
+			// } else {
+			// // 显示菜单区域
+			// scrollTo(-mMeunView.getMeasuredWidth(), 0);
+			// }
+
+			switchMenu(!(middleX < currentX));
+			break;
+		default:
+			break;
+		}
+		// 消费touch
+		return true;
+	}
 
 	private void switchMenu(boolean showMenu) {
 		if (showMenu) {
